@@ -62,7 +62,7 @@ export default function Home() {
 
       {/* 메인 콘텐츠 영역 */}
       <main className="max-w-6xl mx-auto px-4 py-10 space-y-16">
-        
+
         {/* 1. 이번 달 행사/축제 섹션 */}
         <section className="space-y-6">
           <div className="flex items-center gap-2 pb-2 border-b border-amber-200">
@@ -75,8 +75,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {festivals.map((item) => (
-              <article 
-                key={item.id} 
+              <article
+                key={item.id}
                 className="group flex flex-col justify-between bg-white border border-stone-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
@@ -88,11 +88,11 @@ export default function Home() {
                       📍 {item.location}
                     </span>
                   </div>
-                  
+
                   <h3 className="text-lg font-bold text-stone-900 group-hover:text-amber-600 transition-colors mb-2">
                     {item.name}
                   </h3>
-                  
+
                   <p className="text-sm text-stone-600 leading-relaxed line-clamp-3 mb-6">
                     {item.summary}
                   </p>
@@ -109,8 +109,8 @@ export default function Home() {
                       <span className="text-stone-700 font-semibold">{item.target}</span>
                     </div>
                   </div>
-                  
-                  <Link 
+
+                  <Link
                     href={`/detail/${item.id}`}
                     className="w-full inline-flex items-center justify-center py-2.5 px-4 bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800 rounded-xl text-sm font-semibold transition-colors"
                   >
@@ -134,8 +134,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {benefits.map((item) => (
-              <article 
-                key={item.id} 
+              <article
+                key={item.id}
                 className="group flex flex-col justify-between bg-white border border-stone-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
@@ -147,11 +147,11 @@ export default function Home() {
                       📍 {item.location}
                     </span>
                   </div>
-                  
+
                   <h3 className="text-lg font-bold text-stone-900 group-hover:text-emerald-600 transition-colors mb-2">
                     {item.name}
                   </h3>
-                  
+
                   <p className="text-sm text-stone-600 leading-relaxed line-clamp-3 mb-6">
                     {item.summary}
                   </p>
@@ -164,8 +164,8 @@ export default function Home() {
                       <span className="text-stone-700 font-semibold">{item.target}</span>
                     </div>
                   </div>
-                  
-                  <Link 
+
+                  <Link
                     href={`/detail/${item.id}`}
                     className="w-full inline-flex items-center justify-center py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 hover:text-emerald-800 rounded-xl text-sm font-semibold transition-colors"
                   >
