@@ -1,0 +1,41 @@
+name: 🤖 Daily AI Support Fund Blog Writer
+
+# 🕒 언제 실행할지 설정합니다
+on:
+  schedule:
+    # 매일 한국 시간 오전 7시 (그리니치 표준시인 UTC 기준으로는 전날 밤 22시입니다)
+    - cron: '0 22 * * *'
+  # 🚀 사용자가 깃허브 홈페이지에서 원할 때 직접 버튼을 눌러 실행할 수 있게 만듭니다
+  workflow_dispatch:
+
+# 🔑 로봇이 쓴 글을 깃허브 코드 저장소에 다시 저장(Commit & Push)할 수 있는 권한을 줍니다
+permissions:
+  contents: write
+
+jobs:
+  write-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 깃허브 코드 저장소에 있는 소스코드를 로봇 컴퓨터로 내려받습니다
+      - name: 📂 소스코드 가져오기
+        uses: actions/checkout@v4
+
+      # 2. 자바스크립트 프로그램을 실행하기 위해 Node.js 환경을 세팅합니다
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. 우리가 만든 자동 집필 스크립트를 실행합니다 (금고에 숨겨둔 비밀 마스터키 주입)
+      - name: ✍️ AI 블로그 글 자동 집필
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/auto-write.js
+
+      # 4. AI가 새로 작성해서 추가한 blog.json 파일을 코드 저장소에 업로드(Commit & Push)합니다
+      - name: 💾 변경된 파일 자동 커밋 및 푸시
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 AI 자동 집필: 오늘의 성남 지원금 블로그 업로드"
+          file_pattern: "public/data/blog.json"

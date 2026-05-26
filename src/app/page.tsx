@@ -53,9 +53,9 @@ export default function Home() {
             <Link href="/" className="px-4 py-1.5 rounded-full bg-white text-amber-600 shadow-sm">
               홈
             </Link>
-            <a href="#" className="px-4 py-1.5 rounded-full hover:text-stone-900 transition-colors">
-              AI 블로그
-            </a>
+            <Link href="/blog" className="px-4 py-1.5 rounded-full hover:text-stone-900 transition-colors">
+              블로그
+            </Link>
           </nav>
         </div>
       </header>
@@ -111,7 +111,7 @@ export default function Home() {
                   </div>
 
                   <Link
-                    href={`/detail/${item.id}`}
+                    href="/blog"
                     className="w-full inline-flex items-center justify-center py-2.5 px-4 bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800 rounded-xl text-sm font-semibold transition-colors"
                   >
                     자세히 보기
@@ -166,7 +166,7 @@ export default function Home() {
                   </div>
 
                   <Link
-                    href={`/detail/${item.id}`}
+                    href="/blog"
                     className="w-full inline-flex items-center justify-center py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 hover:text-emerald-800 rounded-xl text-sm font-semibold transition-colors"
                   >
                     지원 혜택 자세히 보기
