@@ -1,37 +1,67 @@
 name: 🚀 Deploy to Cloudflare Pages
 
-# 🕒 main 브랜치에 코드가 push되거나 수동으로 시작할 때 실행됩니다
+# 🕒 트리거 설정
 on:
   push:
     branches:
       - main
+  schedule:
+    # 매일 한국 시간 오전 7시 (UTC 22시) 자동 실행
+    - cron: '0 22 * * *'
+  # 🚀 수동 실행 지원
   workflow_dispatch:
+
+# 🔑 로봇이 소스코드를 커밋하고 푸시할 수 있도록 권한 부여
+permissions:
+  contents: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 깃허브 코드 저장소에 있는 소스코드를 가져옵니다
+      # 1. 소스코드 가져오기
       - name: 📂 소스코드 가져오기
         uses: actions/checkout@v4
 
-      # 2. Node.js 20 환경을 세팅합니다 (캐시를 적용해 속도를 올립니다)
+      # 2. Node.js 20 설정
       - name: 🟢 Node.js 설정
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. 깨끗하고 일관성 있게 패키지들을 다운로드합니다
+      # 3. 패키지 설치
       - name: 📦 의존성 패키지 설치
         run: npm ci
 
-      # 4. 프로덕션 배포용 웹사이트 빌드를 수행합니다
+      # 4. 공공데이터 수집 (스케줄러 또는 수동 실행 시에만 실행)
+      - name: 📡 공공데이터 수집
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/fetch-public-data.js
+
+      # 5. AI 블로그 글 생성 (스케줄러 또는 수동 실행 시에만 실행)
+      - name: ✍️ AI 블로그 글 생성
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate-blog-post.js
+
+      # 6. 변경사항 자동 커밋 및 푸시 (스케줄러 또는 수동 실행 시에만 실행, 변경사항 있을 때만 작동)
+      - name: 💾 변경사항 자동 커밋 및 푸시
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "자동 업데이트: 공공데이터 수집 및 블로그 글 생성"
+
+      # 7. 웹사이트 빌드 (모든 트리거에서 공통 실행)
       - name: 🏗️ 웹사이트 빌드
         run: npm run build
 
-      # 5. Cloudflare Secrets 보안키들을 사용해 Cloudflare Pages로 배포합니다
+      # 8. Cloudflare Pages로 배포 (모든 트리거에서 공통 실행)
       - name: 🚀 Cloudflare Pages로 배포
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
