@@ -1,5 +1,7 @@
 import localData from "../../public/data/local-info.json";
 import Link from "next/link";
+import AdBanner from "../components/AdBanner";
+
 
 interface InfoItem {
   id: string;
@@ -121,6 +123,9 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* 구글 애드센스 광고 영역 */}
+        <AdBanner />
 
         {/* 2. 지원금/혜택 섹션 */}
         <section className="space-y-6">

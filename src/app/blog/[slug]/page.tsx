@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import AdBanner from "../../../components/AdBanner";
+
 
 export const dynamicParams = false;
 
@@ -96,6 +98,9 @@ export default async function BlogDetailPage({ params }: PageProps) {
               </ReactMarkdown>
             </div>
           </div>
+
+          {/* 구글 애드센스 광고 영역 */}
+          <AdBanner />
 
           {/* 구분선 */}
           <hr className="border-t border-stone-100 pt-2" />
